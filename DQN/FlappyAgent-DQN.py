@@ -132,10 +132,9 @@ class Agent:
         return states, actions, rewards, states_, dones
 
     def learn(self):
-        if Pretrained and self.memory.mem_cntr < self.batch_size:
+        if self.memory.mem_cntr < self.batch_size:
             return
-        elif self.memory.mem_cntr < 10000:
-            return
+        self.Q_eval.optimizer.zero_grad()
         self.Q_eval.optimizer.zero_grad()
         states, actions, rewards, states_, dones = self.sample_memory()
         indices = np.arange(self.batch_size)
@@ -173,11 +172,14 @@ ep_rewards = []
 if Pretrained:
     with open(os.path.realpath(os.path.join(ROOT_DIR, "statistics")), 'rb') as handle:
         aggr_ep_rewards = pickle.load(handle)
-    agent.gamma = aggr_ep_rewards["gamma"][-400]
-    agent.epsilon = 0.3
-    agent.tau = 0.2
+    agent.gamma = aggr_ep_rewards["gamma"][-100]
+    agent.epsilon = aggr_ep_rewards["eps"][-100]
+    agent.tau = aggr_ep_rewards["tau"][-100]
     gamma_start = agent.gamma
     epsilon_start = agent.epsilon
+    if epsilon_start < 0.35:
+        agent.epsilon = 0.35
+        epsilon_start = 0.35
     tau_start = agent.tau
     START = aggr_ep_rewards["ep"][-1] + 1
 else:
