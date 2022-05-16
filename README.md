@@ -1,5 +1,8 @@
 # DQN and Double-DQN
 AI Flappy Bird Game Solved using Deep Q-Learning and Double Deep Q-Learning
+- [Flappy Bird Game](https://github.com/BhanuPrakashPebbeti/Flappy-Bird) is taken as reference to create the environment.
+- Unnecessary graphics like wing movements is removed to make rendering and training faster.
+- Background is replaced with black color to help the model converge faster due to more GPU computation. 
 
 ## Deep Q Learning
 A core difference between Deep Q-Learning and Vanilla Q-Learning is the implementation of the Q-table. Critically, Deep Q-Learning replaces the regular Q-table with a neural network. Rather than mapping a state-action pair to a q-value, a neural network maps input states to (action, Q-value) pairs.
