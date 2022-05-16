@@ -71,7 +71,6 @@ agent = TrainedAgent(input_dims = (4, 84, 84), n_actions = 2)
 
 EPISODES = 500
 for episode in range(EPISODES):
-    score = 0
     done = False
     image = env.reset(stop_render = False)
     image = agent.preprocess(image) / 255
@@ -83,5 +82,4 @@ for episode in range(EPISODES):
         new_state = agent.preprocess(new_state) / 255
         next_state = torch.cat((state[1:, :, :], new_state))[:, :, :]
         state = next_state
-        score += reward
-    print("episode : {} | score : {} ".format(episode, score))
+    print("episode : {} | score : {} ".format(episode, env.score))
